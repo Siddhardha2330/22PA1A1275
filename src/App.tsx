@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { 
-  Container, Box, Typography, AppBar, Toolbar, Button, 
-  ThemeProvider, createTheme 
-} from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import UrlShortener from './components/UrlShortener';
 import UrlStatsPage from './components/UrlStats';
 import { log } from './utils/logger';
-
-const theme = createTheme();
 
 function App() {
   const [currentPage, setCurrentPage] = useState<'shortener' | 'stats'>('shortener');
@@ -18,34 +13,29 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            URL Shortener
-          </Typography>
-          <Button 
-            color="inherit" 
-            onClick={() => handlePageChange('shortener')}
-            sx={{ mr: 2 }}
-          >
-            Shorten URLs
-          </Button>
-          <Button 
-            color="inherit" 
-            onClick={() => handlePageChange('stats')}
-          >
-            Statistics
-          </Button>
-        </Toolbar>
-      </AppBar>
+    <Box sx={{ p: 2 }}>
+      <Typography variant="h4" gutterBottom align="center">
+        URL Shortener
+      </Typography>
+      
+      <Box sx={{ mb: 3, textAlign: 'center' }}>
+        <Button 
+          variant={currentPage === 'shortener' ? 'contained' : 'outlined'}
+          onClick={() => handlePageChange('shortener')}
+          sx={{ mr: 2 }}
+        >
+          Shorten URL
+        </Button>
+        <Button 
+          variant={currentPage === 'stats' ? 'contained' : 'outlined'}
+          onClick={() => handlePageChange('stats')}
+        >
+          Statistics
+        </Button>
+      </Box>
 
-      <Container>
-        <Box sx={{ mt: 2 }}>
-          {currentPage === 'shortener' ? <UrlShortener /> : <UrlStatsPage />}
-        </Box>
-      </Container>
-    </ThemeProvider>
+      {currentPage === 'shortener' ? <UrlShortener /> : <UrlStatsPage />}
+    </Box>
   );
 }
 
